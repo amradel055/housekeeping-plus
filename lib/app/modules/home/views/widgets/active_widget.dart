@@ -1,5 +1,6 @@
 import 'package:easy_hotel/app/components/text_widget.dart';
 import 'package:easy_hotel/app/core/themes/app_text_theme.dart';
+import 'package:easy_hotel/app/core/utils/common.dart';
 import 'package:easy_hotel/app/core/values/app_colors.dart';
 import 'package:easy_hotel/app/core/values/app_strings.dart';
 import 'package:easy_hotel/app/modules/home/controllers/home_controller.dart';
@@ -12,12 +13,10 @@ import 'package:get/get.dart';
 import 'package:readmore/readmore.dart';
 
 
-class SpaInfoWidget extends GetView<HomeController> {
-  const SpaInfoWidget(this.discription, this.name, this.town, {Key? key})
+class ActiveOrdersWidget extends GetView<HomeController> {
+  const ActiveOrdersWidget({Key? key})
       : super(key: key);
-  final String discription;
-  final String name;
-  final String town;
+
 
   @override
   Widget build(BuildContext context) {
@@ -26,27 +25,32 @@ class SpaInfoWidget extends GetView<HomeController> {
         .size;
 
     return Obx(() {
+      if (controller.isLoading.value) {
+        return Center(
+          child: Common.getSpin(),
+        );
+      }
       return SizedBox(
-          height: size.height,
           width: size.width,
-          child: SingleChildScrollView(
-            physics: const AlwaysScrollableScrollPhysics(),
-            scrollDirection: Axis.vertical,
-            child: Column(
+          child: Obx(() {
+            return Column(
               children: [
                 for(int i = 0; i < controller.activeOrders.length; i ++)
-                  orderContainer(
+                  OrderContainer(
                       true,
-                      controller.activeOrders[i].invoiceNumber??0,
-                      controller.activeOrders[i].customerId??0,
-                      controller.activeOrders[i].invoiceNumber??0,
-                      controller.activeOrders[i].customerName ??"",
-                      controller.activeOrders[i].address,
-                      null),
+                      controller.activeOrders[i].roomNum.toString() ?? "",
+                      controller.activeOrders[i].roomNum ?? 0,
+                      controller.activeOrders[i].roomNum.toString() ?? "",
+                      controller.activeOrders[i].customerName ?? "",
+                      controller.activeOrders[i].roomNum.toString(),
+                      i
+
+
+                  ),
 
               ],
-            ),
-          )
+            );
+          })
       );
     });
   }

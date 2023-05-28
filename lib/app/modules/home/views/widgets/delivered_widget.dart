@@ -1,5 +1,6 @@
 import 'package:easy_hotel/app/components/text_widget.dart';
 import 'package:easy_hotel/app/core/themes/app_text_theme.dart';
+import 'package:easy_hotel/app/core/utils/common.dart';
 import 'package:easy_hotel/app/core/values/app_colors.dart';
 import 'package:easy_hotel/app/core/values/app_strings.dart';
 import 'package:easy_hotel/app/modules/home/controllers/home_controller.dart';
@@ -12,8 +13,8 @@ import 'package:get/get.dart';
 import 'package:readmore/readmore.dart';
 
 
-class SpaInfoWidget extends GetView<HomeController> {
-  const SpaInfoWidget( {Key? key})
+class DeliveredOrdersWidget extends GetView<HomeController> {
+  const DeliveredOrdersWidget({Key? key})
       : super(key: key);
 
 
@@ -24,28 +25,32 @@ class SpaInfoWidget extends GetView<HomeController> {
         .size;
 
     return Obx(() {
-      return SizedBox(
-          height: size.height,
-          width: size.width,
-          child: SingleChildScrollView(
-            physics: const AlwaysScrollableScrollPhysics(),
-            scrollDirection: Axis.vertical,
-            child: Column(
-              children: [
-                for(int i = 0; i < controller.activeOrders.length; i ++)
-                  orderContainer(
-                      true,
-                      controller.activeOrders[i].invoiceNumber??0,
-                      controller.activeOrders[i].customerId??0,
-                      controller.activeOrders[i].invoiceNumber??0,
-                      controller.activeOrders[i].customerName ??"",
-                      controller.activeOrders[i].address,
-                      null),
+      if (controller.isLoading.value) {
+        return Center(
+          child: Common.getSpin(),
+        );
+      }
 
-              ],
-            ),
-          )
-      );
+        return SizedBox(
+            width: size.width,
+            child: Obx(() {
+              return Column(
+                children: [
+                  for(int i = 0; i < controller.deliverdOrders.length; i ++)
+                    OrderContainer(
+                        true,
+                        controller.deliverdOrders[i].id.toString() ?? "",
+                        controller.deliverdOrders[i].customerId ?? 0,
+                        controller.deliverdOrders[i].id.toString() ?? "",
+                        controller.deliverdOrders[i].customerName ?? "",
+                        controller.deliverdOrders[i].id.toString(),
+                        i),
+
+                ],
+              );
+            })
+        );
+
     });
   }
 

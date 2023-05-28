@@ -35,6 +35,7 @@ class PolmanOrder {
     this.finishName,
     this.startDate,
     this.finishDate,
+    this.roomNum,
   });
 
   int ?id;
@@ -62,6 +63,7 @@ class PolmanOrder {
   dynamic finishName;
   dynamic startDate;
   dynamic finishDate;
+  int ?roomNum;
   static List<PolmanOrder> fromList(dynamic json) => List.from(json.map((e) => PolmanOrder.fromJson(e)));
 
 
@@ -91,6 +93,7 @@ class PolmanOrder {
     finishName: json["finishName"],
     startDate: json["startDate"],
     finishDate: json["finishDate"],
+    roomNum: json["roomNum"] == null ? null : json["roomNum"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -119,5 +122,6 @@ class PolmanOrder {
     "finishName": finishName,
     "startDate": startDate,
     "finishDate": finishDate,
+    "roomNum": roomNum == null ? null : roomNum,
   };
 }

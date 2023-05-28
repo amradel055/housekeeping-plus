@@ -20,6 +20,19 @@ class FilterBarWidgets extends GetView<HomeController> {
     return GestureDetector(
       onTap: () {
         controller.index(index);
+        if(index==0){
+          controller.getActiveOrders();
+        }else if(index==1){
+          controller.getDeliveredOrders();
+
+
+        }else if(index==2){
+          controller.getDelyedOrders();
+
+        }else{
+          controller.getAllOrders();
+
+        }
       },
       child: Obx(() {
         return Center(
