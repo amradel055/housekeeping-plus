@@ -12,6 +12,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:readmore/readmore.dart';
 
+import '../../../../components/app_refresh_indecetor.dart';
+
 
 class DeliveredOrdersWidget extends GetView<HomeController> {
   const DeliveredOrdersWidget({Key? key})
@@ -33,22 +35,25 @@ class DeliveredOrdersWidget extends GetView<HomeController> {
 
         return SizedBox(
             width: size.width,
-            child: Obx(() {
-              return Column(
-                children: [
-                  for(int i = 0; i < controller.deliverdOrders.length; i ++)
-                    OrderContainer(
-                        true,
-                        controller.deliverdOrders[i].id.toString() ?? "",
-                        controller.deliverdOrders[i].customerId ?? 0,
-                        controller.deliverdOrders[i].id.toString() ?? "",
-                        controller.deliverdOrders[i].customerName ?? "",
-                        controller.deliverdOrders[i].id.toString(),
-                        i),
+            child: AppRefreshIndicator(
+              onRefresh: () async => await controller.getDeliveredOrders(),
+              child: Obx(() {
+                return Column(
+                  children: [
+                    for(int i = 0; i < controller.deliverdOrders.length; i ++)
+                      OrderContainer(
+                          true,
+                          controller.deliverdOrders[i].id.toString() ?? "",
+                          controller.deliverdOrders[i].customerId ?? 0,
+                          controller.deliverdOrders[i].id.toString() ?? "",
+                          controller.deliverdOrders[i].customerName ?? "",
+                          controller.deliverdOrders[i].id.toString(),
+                          i),
 
-                ],
-              );
-            })
+                  ],
+                );
+              }),
+            )
         );
 
     });

@@ -12,6 +12,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:readmore/readmore.dart';
 
+import '../../../../components/app_refresh_indecetor.dart';
+
 
 class DelayedOrdersWidget extends GetView<HomeController> {
   const DelayedOrdersWidget({Key? key})
@@ -30,22 +32,26 @@ class DelayedOrdersWidget extends GetView<HomeController> {
           child: Common.getSpin(),
         );
       }
-      return Obx(() {
-        return Column(
-          children: [
-            for(int i = 0; i < controller.delayedOrders.length; i ++)
-              OrderContainer(
-                  false,
-                  controller.delayedOrders[i].id.toString() ?? "0",
-                  controller.delayedOrders[i].customerId ?? 0,
-                  controller.delayedOrders[i].id.toString() ?? "0",
-                  controller.delayedOrders[i].customerName ?? "",
-                  controller.delayedOrders[i].id.toString(),
-                  i),
+      return AppRefreshIndicator(
+        onRefresh: () async => await controller.getDelyedOrders(),
 
-          ],
-        );
-      });
+        child: Obx(() {
+          return Column(
+            children: [
+              for(int i = 0; i < controller.delayedOrders.length; i ++)
+                OrderContainer(
+                    false,
+                    controller.delayedOrders[i].id.toString() ?? "0",
+                    controller.delayedOrders[i].customerId ?? 0,
+                    controller.delayedOrders[i].id.toString() ?? "0",
+                    controller.delayedOrders[i].customerName ?? "",
+                    controller.delayedOrders[i].id.toString(),
+                    i),
+
+            ],
+          );
+        }),
+      );
     });
   }
 
