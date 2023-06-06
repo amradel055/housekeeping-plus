@@ -20,103 +20,103 @@ class HomeView extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery
-        .of(context)
-        .size;
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
         extendBodyBehindAppBar: true,
         appBar: AppBar(
           elevation: 0,
           backgroundColor: Colors.transparent,
           foregroundColor: Colors.white,
-          title: TextWidget(AppStrings.housekeepingService, size: 30.h,textColor: Colors.white,),
+          title: TextWidget(
+            AppStrings.housekeepingService,
+            size: 30.h,
+            textColor: Colors.white,
+          ),
           flexibleSpace: Container(
             decoration: BoxDecoration(
-                gradient: LinearGradient(
-                    colors: [
-                      Colors.black87,
-                      Colors.black87,
-                      Colors.black.withOpacity(.7),
-                      Colors.black.withOpacity(.6),
-                      Colors.transparent
-                    ],
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter
-                )
-            ),
+                gradient: LinearGradient(colors: [
+              Colors.black87,
+              Colors.black87,
+              Colors.black.withOpacity(.7),
+              Colors.black.withOpacity(.6),
+              Colors.transparent
+            ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
           ),
           centerTitle: true,
         ),
-        body:
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Container(
+              height: 200.h,
+              decoration: const BoxDecoration(
+                  image: DecorationImage(
+                      image: AssetImage(AppAssets.housekeeping),
+                      fit: BoxFit.cover)),
 
-           ListView(
-            padding: EdgeInsets.zero,
-            children: [
-              Container(
-                height: 200.h,
-                decoration: const  BoxDecoration(
-                    image: DecorationImage(
-                        image: AssetImage(
-                          AppAssets.housekeeping
-                        ),
-                        fit: BoxFit.cover)),
-
-                // padding: EdgeInsets.fromLTRB(0, 75.h, 0, 0),
-                // child: Column(
-                //   crossAxisAlignment: CrossAxisAlignment.stretch,
-                //   children: [
-                //     Center(child: TextWidget(
-                //       "Search For Order", textColor: Colors.white,
-                //       size: 20.h,
-                //       weight: FontWeight.bold,)),
-                //     Center(
-                //       child: SizedBox(
-                //           width: size.width * .8,
-                //           child: TextFieldWidget(
-                //             label: AppStrings.search,
-                //             suffixIcon: Icons.search,
-                //             onChange: (value) {
-                //               controller.filter(value);
-                //             },
-                //             ltr: true,
-                //           )
-                //       ),
-                //     ),
-                //   ],
-                // ),
-              ),
-              Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children:  [
-                  FilterBarWidgets(
-                    title: AppStrings.active, index: 0,),
-                  FilterBarWidgets(
-                    title: "تم البدء", index: 1,),
-                  FilterBarWidgets(title: AppStrings.done, index: 2,),
-                  FilterBarWidgets(title: AppStrings.allorders, index: 3)
-                ],),
-
-              Container(
-                height: size.height * .002, color: AppColors.appBlue,
-              ),
-              Obx(() {
-                if(controller.isLoading.value){
-                  return Center(
-                    child: Common.getSpin(),
-                  );
-                }
-                return [
+              // padding: EdgeInsets.fromLTRB(0, 75.h, 0, 0),
+              // child: Column(
+              //   crossAxisAlignment: CrossAxisAlignment.stretch,
+              //   children: [
+              //     Center(child: TextWidget(
+              //       "Search For Order", textColor: Colors.white,
+              //       size: 20.h,
+              //       weight: FontWeight.bold,)),
+              //     Center(
+              //       child: SizedBox(
+              //           width: size.width * .8,
+              //           child: TextFieldWidget(
+              //             label: AppStrings.search,
+              //             suffixIcon: Icons.search,
+              //             onChange: (value) {
+              //               controller.filter(value);
+              //             },
+              //             ltr: true,
+              //           )
+              //       ),
+              //     ),
+              //   ],
+              // ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                FilterBarWidgets(
+                  title: AppStrings.active,
+                  index: 0,
+                ),
+                FilterBarWidgets(
+                  title: "تم البدء",
+                  index: 1,
+                ),
+                FilterBarWidgets(
+                  title: AppStrings.done,
+                  index: 2,
+                ),
+                FilterBarWidgets(title: AppStrings.allorders, index: 3)
+              ],
+            ),
+            Container(
+              height: size.height * .002,
+              color: AppColors.appBlue,
+            ),
+            Obx(() {
+              if (controller.isLoading.value) {
+                return Center(
+                  child: Common.getSpin(),
+                );
+              }
+              return SizedBox(
+                height: 550.h,
+                child: [
                   const ActiveOrdersWidget(),
                   const DeliveredOrdersWidget(),
                   const DelayedOrdersWidget(),
                   const AllOrdersWidget(),
-                ][controller.index.value];
-              })
-
-
-            ],
-          )
-
-    );
+                ][controller.index.value],
+              );
+            })
+          ],
+        ));
   }
-
 }

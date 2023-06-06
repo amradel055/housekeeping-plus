@@ -35,8 +35,10 @@ final String apiKey = "AAAAlEq9lFs:APA91bGrzO5fQDFJ6a16rMvXUlJFcMTjcNbpnZNeWeLfi
         onComplete: onComplete,
         onSuccess: onSuccess,
         data: request.toJson(),
+        isFcmNotification: true,
         header: {
-        "Authorization": "key=$apiKey"
+          'Content-Type': 'application/json',
+          "Authorization": "key=$apiKey"
         },
         onError: onError,
         convertor: (_) {  },
